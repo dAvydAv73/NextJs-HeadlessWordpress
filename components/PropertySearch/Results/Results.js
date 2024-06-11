@@ -12,7 +12,7 @@ export const Results = ({ properties }) => {
             bedrooms={property.propertyFeatures.bedrooms}
             bathrooms={property.propertyFeatures.bathrooms}
             price={property.propertyFeatures.price}
-            hasParking={property.propertyFeatures.parking}
+            hasParking={property.propertyFeatures.hasParking}
             petFriendly={property.propertyFeatures.petFriendly}
             image={property.featuredImage?.node?.sourceUrl}
           />

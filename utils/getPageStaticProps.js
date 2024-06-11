@@ -3,10 +3,7 @@ import client from "client";
 import { cleanAndTransformBlocks } from "./cleanAndTransformBlocks";
 import { mapMainMenuItems } from "./mapMainMenuItems";
 
-
-
 export const getPageStaticProps = async (context) => {
-  console.log("CONTEXT: ", context);
   const uri = context.params?.slug ? `/${context.params.slug.join("/")}/` : "/";
 
   const { data } = await client.query({
@@ -38,7 +35,7 @@ export const getPageStaticProps = async (context) => {
             propertyFeatures {
               bathrooms
               bedrooms
-              parking
+              hasParking
               petFriendly
               price
             }
@@ -85,13 +82,11 @@ export const getPageStaticProps = async (context) => {
       uri,
     },
   });
-  console.log("DATA 3: ", data);
   const blocks = cleanAndTransformBlocks(data.nodeByUri.blocks);
-  //console.log("BLOCK FROM CLEAN AND TRANSFORM BLOCKS ---------", blocks);
   return {
     props: {
-      seo: data.nodeByUri.seo || null,
-      title: data.nodeByUri.title || null,
+      seo: data.nodeByUri.seo,
+      title: data.nodeByUri.title,
       propertyFeatures: data.nodeByUri.propertyFeatures || null,
       featuredImage: data.nodeByUri.featuredImage?.node?.sourceUrl || null,
       mainMenuItems: mapMainMenuItems(
@@ -101,7 +96,6 @@ export const getPageStaticProps = async (context) => {
         data.acfOptionsMainMenu.mainMenu.callToActionButton.label,
       callToActionDestination:
         data.acfOptionsMainMenu.mainMenu.callToActionButton.destination.uri,
-        //blocks: cleanAndTransformBlocks(data.nodeByUri.blocks)
       blocks,
     },
   };
